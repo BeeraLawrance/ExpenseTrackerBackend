@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from user.schemas import UserBase, UserCreate, UserResponse ,CreateCategory
+from user.schemas import CreateCategory
 from Auth.database import get_db
+from user.models import category
 
 router = APIRouter()
 
 @router.post("/create_category/")
-def create_category(category:CreateCategory, db:Session=Depends(get_db)):
-    db_category = category(categoryName=category.categoryName, user_id=category.user_id)
+def create_category(category_items:CreateCategory, db:Session=Depends(get_db)):
+    db_category = category(name=category_items.categoryName, user_id=category_items.user_id)
     db.add(db_category)
     db.commit()
     db.refresh(db_category)
@@ -15,12 +16,11 @@ def create_category(category:CreateCategory, db:Session=Depends(get_db)):
 
 @router.get('/get_category/')
 def get_category(category_id:str, db:Session=Depends(get_db)):
-    if category_id:
-        category = db.query(category).filter(category_id==category_id).first()
-    elif not category_id:
+    if not category_id:
         raise HTTPException(status_code=400, detail="Category ID is required")
-    if not category:
+    category_item = db.query(category).filter(category.id == category_id).first()
+    if not category_item:
         raise HTTPException(status_code=404, detail="Category not found")
     
-    return category
+    return category_item
 

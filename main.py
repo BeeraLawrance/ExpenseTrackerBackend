@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from API.user.user import router as User_routes
+from user.user import router as User_routes
 from user.category import router as Category_routes
 from user.subcategory import router as SubCategory_routes
 from user.transaction import router as transaction_routes

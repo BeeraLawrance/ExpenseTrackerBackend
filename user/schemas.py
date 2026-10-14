@@ -27,10 +27,10 @@ class UserCreate(UserBase):
     password: str   
 
 class UserResponse(UserBase):
-    user_id: str
+    id: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 
@@ -51,7 +51,7 @@ class CreateSubCategory(BaseModel):
     name:str
     amount:float
     priority_level:prioritylevel
-    end_data:datetime
+    end_date:datetime
 
 
 class SubCategoryResponse(CreateSubCategory):
@@ -61,11 +61,11 @@ class SubCategoryResponse(CreateSubCategory):
 
 class Createtransaction(BaseModel):
     amount: float
-    transactiontype:transactiontype
-    description:str
-    catergory_id:str
+    # transactiontype:transactiontype
+    discrption:str
+    category_id:str
     user_id:str
-    subcategory_id:str
+    subcategory_id:str | None = None
 
 class TransactionResponse(Createtransaction):
     transaction_id:str

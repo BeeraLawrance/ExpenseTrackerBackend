@@ -15,6 +15,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # Create a Base class for your database models
 Base = declarative_base()
 
+Base.metadata.create_all(bind=engine)
 
 def get_db():
     db = SessionLocal()
